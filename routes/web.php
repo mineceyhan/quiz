@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\QuizController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,14 +22,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/panel', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::group(
-    [
-        'middleware' => ['auth:sanctum', 'isAdmin'],
-        'prefix' => 'admin'  // admin/deneme 
-    ],
-    function () {
-        Route::get('deneme', function () {
-            return "middleware testi";
-        });
-    }
-);
+Route::group(['middleware' => ['auth:sanctum', 'isAdmin'], 'prefix' => 'admin'],   function () { // admin/deneme 
+    Route::resource('quizes' ,QuizController::class);
+});
